@@ -18,6 +18,12 @@
 
     "initializeCommand": "cp -n ${localWorkspaceFolder}/.env.example ${localWorkspaceFolder}/.env || true",
 
+    "features": {
+        "ghcr.io/devcontainers/features/sshd:1": {
+            "version": "latest"
+        }
+    },
+
     "postCreateCommand": "sed -i \"s/^APP_SECRET=.*/APP_SECRET=$(openssl rand -hex 16)/\" .env && composer install --no-progress --prefer-dist && php bin/console doctrine:migrations:migrate --no-interaction && npm install && npm run build",
 
     "customizations": {
