@@ -15,7 +15,7 @@ Teste técnico: cadastro de Livro, Autor e Assunto, com relatório agrupado por 
 - **SecurityBundle** (`form_login`) para autenticação — todas as telas exigem login
 - **PHPUnit** para os testes (unitários de entidade/validação e funcionais de controller)
 - **Docker** (PHP-FPM + Nginx + MySQL) para todo o ambiente
-- **Azure Pipelines** (`azure-pipelines.yml`) para CI: composer install, build de assets e testes
+- **GitHub Actions** (`.github/workflows/ci.yml`) para CI: composer install, build de assets e testes
 
 ## Arquitetura
 
@@ -26,7 +26,7 @@ docker/
   mysql/initdb/          # script que cria o banco de testes (livraria_test) na 1ª subida
 docker-compose.yml        # serviços: app (php-fpm), nginx, database (mysql), mailer (mailpit)
 compose.override.yaml     # serviço de mailer (Mailpit) para debug de e-mails, se necessário
-azure-pipelines.yml        # pipeline de CI (composer, build de assets, phpunit)
+.github/workflows/ci.yml   # pipeline de CI (composer, build de assets, phpunit)
 src/
   Entity/                 # Livro, Autor, Assunto (mapeamento seguindo o modelo de dados)
   Repository/
@@ -128,16 +128,16 @@ docker compose exec app php bin/console doctrine:migrations:migrate --env=test -
 docker compose exec app php bin/phpunit
 ```
 
-25 testes: unitários de entidade/validação (`tests/Entity`) e funcionais de CRUD e login
-(`tests/Controller`, via `WebTestCase`, cobrindo criação, edição, exclusão, validação de
-formulário, as regras de erro específicas — assunto duplicado, exclusão bloqueada por vínculo —
-e o próprio fluxo de autenticação).
+26 testes: unitários de entidade/validação (`tests/Entity`) e funcionais de CRUD, login e página
+de erro (`tests/Controller`, via `WebTestCase`, cobrindo criação, edição, exclusão, validação de
+formulário, as regras de erro específicas — assunto duplicado, exclusão bloqueada por vínculo —,
+o fluxo de autenticação e a página 404 customizada).
 
 ## Integração contínua
 
-`azure-pipelines.yml` roda em cada push: sobe um MySQL efêmero, `composer install`,
-`npm ci && npm run build` e `php bin/phpunit`. Reflete a stack de CI mencionada na vaga
-(Azure DevOps).
+`.github/workflows/ci.yml` roda em cada push/PR para `main`: sobe um MySQL de serviço, cria o
+`.env`, `composer install`, `npm ci && npm run build`, roda as migrations no banco de teste e
+`php bin/phpunit`.
 
 ## Comandos úteis
 
