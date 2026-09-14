@@ -2,6 +2,14 @@
 framework:
     secret: '%env(APP_SECRET)%'
 
+    # O PHP-FPM nunca é exposto diretamente (só o Nginx é) — confiamos em
+    # qualquer proxy porque, nesta topologia, "o proxy" é sempre o próprio
+    # Nginx do docker-compose. Necessário para redirects/URLs absolutas
+    # ficarem corretos atrás de um proxy reverso externo (ex.: túnel do
+    # GitHub Codespaces), que envia esses headers com o host/proto reais.
+    trusted_proxies: '0.0.0.0/0,::/0'
+    trusted_headers: ['x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-port', 'x-forwarded-prefix']
+
     # Note that the session will be started ONLY if you read or write from it.
     session: true
 
