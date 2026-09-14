@@ -117,6 +117,13 @@ Banco MySQL exposto em `localhost:3306` (usuário `symfony` / senha `symfony` / 
 Mailpit (captura de e-mails de teste) fica acessível pela porta mapeada dinamicamente pelo Docker
 para o container `mailer` (`docker compose port mailer 8025`).
 
+### Alternativa sem instalar nada: GitHub Codespaces
+
+O repositório já tem `.devcontainer/devcontainer.json`. Em **Code → Create codespace on main**,
+o GitHub sobe o `docker-compose.yml` inteiro numa máquina na nuvem e já roda `.env`, migrations
+e build dos assets sozinho (via `postCreateCommand`) — a aplicação fica pronta na porta 8080
+encaminhada automaticamente, sem precisar de Docker (nem de nada) na sua máquina.
+
 ## Rodando os testes
 
 ```bash

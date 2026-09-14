@@ -1,0 +1,33 @@
+{
+    "name": "Cadastro de Livros",
+    "dockerComposeFile": [
+        "../docker-compose.yml",
+        "../compose.override.yaml"
+    ],
+    "service": "app",
+    "workspaceFolder": "/var/www/html",
+    "shutdownAction": "stopCompose",
+
+    "forwardPorts": [8080],
+    "portsAttributes": {
+        "8080": {
+            "label": "Aplicação (Nginx)",
+            "onAutoForward": "notify"
+        }
+    },
+
+    "postCreateCommand": "cp .env.example .env && sed -i \"s/^APP_SECRET=.*/APP_SECRET=$(openssl rand -hex 16)/\" .env && composer install --no-progress --prefer-dist && php bin/console doctrine:migrations:migrate --no-interaction && npm install && npm run build",
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "bmewburn.vscode-intelephense-client",
+                "whatwedo.twig",
+                "ms-azuretools.vscode-docker"
+            ],
+            "settings": {
+                "intelephense.environment.phpVersion": "8.4.0"
+            }
+        }
+    }
+}
