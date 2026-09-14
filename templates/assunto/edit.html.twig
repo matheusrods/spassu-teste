@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar assunto{% endblock %}
+
+{% block body %}
+    <h1 class="h3 mb-3">Editar assunto #{{ assunto.id }}</h1>
+    {{ include('assunto/_form.html.twig') }}
+{% endblock %}

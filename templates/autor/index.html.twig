@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Autores{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">Autores</h1>
+        <a href="{{ path('autor_new') }}" class="btn btn-primary">Novo autor</a>
+    </div>
+
+    <form method="get" class="row g-2 mb-3 align-items-end">
+        <div class="col-md-4">
+            <label for="filtro-nome" class="form-label small text-muted mb-1">Nome do autor</label>
+            <input type="text" id="filtro-nome" name="nome" value="{{ filtroNome }}" class="form-control" placeholder="Ex.: Machado de Assis">
+        </div>
+        <div class="col-auto d-flex gap-2">
+            <button type="submit" class="btn btn-outline-secondary">Filtrar</button>
+            <a href="{{ path('autor_index') }}" class="btn btn-link">Limpar</a>
+        </div>
+    </form>
+
+    <table class="table table-striped table-hover align-middle">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nome</th>
+                <th class="table-actions">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for autor in autores %}
+                <tr>
+                    <td>{{ autor.id }}</td>
+                    <td>{{ autor.nome }}</td>
+                    <td class="table-actions">
+                        <a href="{{ path('autor_edit', {id: autor.id}) }}" class="btn btn-sm btn-outline-secondary">Editar</a>
+                        {{ include('_partials/_botao_excluir.html.twig', {tipo: 'autor', id: autor.id, mensagem: 'Excluir este autor?'}) }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3" class="text-center text-muted">Nenhum autor cadastrado.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {{ include('_partials/_paginacao.html.twig', {itens: autores}) }}
+{% endblock %}

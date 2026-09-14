@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Entrar{% endblock %}
+
+{% block body %}
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-body p-4">
+                    <h1 class="h4 mb-3">Entrar</h1>
+
+                    <form method="post">
+                        {% if error %}
+                            <div class="d-none" data-controller="flash-alert" data-flash-alert-type-value="error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+
+                        <div class="mb-3">
+                            <label for="username" class="form-label">E-mail</label>
+                            <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Senha</label>
+                            <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+                        </div>
+                        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+
+                        <button class="btn btn-primary w-100" type="submit" data-turbo-submits-with='<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Entrando...'>Entrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

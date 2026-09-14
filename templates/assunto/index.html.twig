@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Assuntos{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">Assuntos</h1>
+        <a href="{{ path('assunto_new') }}" class="btn btn-primary">Novo assunto</a>
+    </div>
+
+    <form method="get" class="row g-2 mb-3 align-items-end">
+        <div class="col-md-4">
+            <label for="filtro-descricao" class="form-label small text-muted mb-1">Descrição do assunto</label>
+            <input type="text" id="filtro-descricao" name="descricao" value="{{ filtroDescricao }}" class="form-control" placeholder="Ex.: Romance">
+        </div>
+        <div class="col-auto d-flex gap-2">
+            <button type="submit" class="btn btn-outline-secondary">Filtrar</button>
+            <a href="{{ path('assunto_index') }}" class="btn btn-link">Limpar</a>
+        </div>
+    </form>
+
+    <table class="table table-striped table-hover align-middle">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Descrição</th>
+                <th class="table-actions">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for assunto in assuntos %}
+                <tr>
+                    <td>{{ assunto.id }}</td>
+                    <td>{{ assunto.descricao }}</td>
+                    <td class="table-actions">
+                        <a href="{{ path('assunto_edit', {id: assunto.id}) }}" class="btn btn-sm btn-outline-secondary">Editar</a>
+                        {{ include('_partials/_botao_excluir.html.twig', {tipo: 'assunto', id: assunto.id, mensagem: 'Excluir este assunto?'}) }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3" class="text-center text-muted">Nenhum assunto cadastrado.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {{ include('_partials/_paginacao.html.twig', {itens: assuntos}) }}
+{% endblock %}

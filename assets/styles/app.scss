@@ -1,0 +1,192 @@
+// ---------------------------------------------------------------------------
+// Paleta e variáveis do tema "Cadastro de Livros"
+// (sobrescrevem os defaults do Bootstrap antes de importá-lo)
+// ---------------------------------------------------------------------------
+$brand-dark: #131921;
+$brand-dark-secondary: #232f3e;
+$brand-orange: #ff9900;
+$brand-orange-dark: #e88a00;
+$brand-link: #007185;
+$brand-link-hover: #c45500;
+$brand-text: #0f1111;
+$brand-bg: #eaeded;
+$brand-border: #d5d9d9;
+
+$primary: $brand-orange;
+$secondary: $brand-dark-secondary;
+$dark: $brand-dark;
+$light: #ffffff;
+$body-bg: $brand-bg;
+$body-color: $brand-text;
+$link-color: $brand-link;
+$link-hover-color: $brand-link-hover;
+
+$font-family-sans-serif: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+$headings-font-family: $font-family-sans-serif;
+$headings-font-weight: 700;
+
+$border-radius: 0.25rem;
+$border-radius-lg: 0.35rem;
+$border-radius-sm: 0.2rem;
+
+$card-border-width: 1px;
+$card-border-color: $brand-border;
+$card-box-shadow: none;
+
+@import "~bootstrap/scss/bootstrap";
+
+// ---------------------------------------------------------------------------
+// Layout geral
+// ---------------------------------------------------------------------------
+body {
+    background-color: $body-bg;
+}
+
+// Barra de progresso do Turbo Drive (topo da página durante navegação) —
+// o Turbo injeta a própria tag <style>, então !important garante que a cor
+// da marca vença a cor azul padrão dele.
+.turbo-progress-bar {
+    height: 3px !important;
+    background-color: $brand-orange !important;
+}
+
+// ---------------------------------------------------------------------------
+// Navbar
+// ---------------------------------------------------------------------------
+.navbar {
+    background-color: $brand-dark;
+
+    .navbar-brand {
+        font-weight: 700;
+        letter-spacing: 0.01em;
+    }
+
+    .nav-link {
+        font-weight: 500;
+
+        &:hover,
+        &.active {
+            color: $brand-orange !important;
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Cards (usados na home e no relatório)
+// ---------------------------------------------------------------------------
+.card {
+    .card-header {
+        background-color: $brand-dark-secondary;
+        color: $white;
+        border-bottom: 1px solid $brand-border;
+
+        .badge {
+            color: $brand-text;
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Tabelas de listagem
+// ---------------------------------------------------------------------------
+.table {
+    background-color: $white;
+
+    thead {
+        // Definido via custom properties do próprio Bootstrap (--bs-table-bg /
+        // --bs-table-color), não só via background-color/color direto: assim o
+        // valor vale independente de qual seletor do Bootstrap (.table > :not(caption) > * > *)
+        // acaba resolvendo a regra, sem depender de guerra de especificidade CSS.
+        --bs-table-bg: #{$brand-dark-secondary};
+        --bs-table-color: #{$white};
+        background-color: var(--bs-table-bg);
+
+        th {
+            color: var(--bs-table-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.78rem;
+            letter-spacing: 0.04em;
+            border-bottom: none;
+        }
+    }
+}
+
+.table-actions {
+    white-space: nowrap;
+
+    .btn + form,
+    .btn + .btn,
+    form + .btn {
+        margin-left: 0.35rem;
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Formulários
+// ---------------------------------------------------------------------------
+.form-control,
+.form-select {
+    border-color: $brand-border;
+
+    &:focus {
+        border-color: $brand-orange;
+        box-shadow: 0 0 0 0.2rem rgba($brand-orange, 0.25);
+    }
+}
+
+fieldset legend {
+    font-size: 0.9rem;
+    color: $brand-dark-secondary;
+    font-weight: 600;
+}
+
+// ---------------------------------------------------------------------------
+// Botões
+// ---------------------------------------------------------------------------
+.btn {
+    font-weight: 600;
+}
+
+.btn-primary {
+    --bs-btn-color: #{$brand-text};
+    --bs-btn-hover-color: #{$brand-text};
+    --bs-btn-active-color: #{$brand-text};
+    --bs-btn-hover-bg: #{$brand-orange-dark};
+    --bs-btn-hover-border-color: #{$brand-orange-dark};
+    --bs-btn-active-bg: #{$brand-orange-dark};
+    --bs-btn-active-border-color: #{$brand-orange-dark};
+}
+
+// ---------------------------------------------------------------------------
+// Alertas / flash messages
+// ---------------------------------------------------------------------------
+.alert {
+    border-left: 4px solid transparent;
+
+    &.alert-success { border-left-color: $success; }
+    &.alert-error,
+    &.alert-danger  { border-left-color: $danger; }
+}
+
+// ---------------------------------------------------------------------------
+// Relatório: impressão amigável
+// ---------------------------------------------------------------------------
+@media print {
+    .navbar,
+    .btn,
+    form.d-inline {
+        display: none !important;
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Responsivo: telas pequenas
+// ---------------------------------------------------------------------------
+@include media-breakpoint-down(sm) {
+    .table-actions .btn {
+        display: block;
+        width: 100%;
+        margin: 0.15rem 0 !important;
+    }
+}

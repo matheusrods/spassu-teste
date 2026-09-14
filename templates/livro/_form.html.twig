@@ -1,0 +1,18 @@
+{{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-8">{{ form_row(form.titulo) }}</div>
+        <div class="col-md-4">{{ form_row(form.editora) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">{{ form_row(form.edicao) }}</div>
+        <div class="col-md-4">{{ form_row(form.anoPublicacao) }}</div>
+        <div class="col-md-4">{{ form_row(form.valor) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">{{ form_row(form.autores) }}</div>
+        <div class="col-md-6">{{ form_row(form.assuntos) }}</div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" data-turbo-submits-with='<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Salvando...'>Salvar</button>
+    <a href="{{ path('livro_index') }}" class="btn btn-link">Cancelar</a>
+{{ form_end(form) }}

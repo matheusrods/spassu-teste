@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar livro{% endblock %}
+
+{% block body %}
+    <h1 class="h3 mb-3">Editar livro #{{ livro.id }}</h1>
+    {{ include('livro/_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,6 @@
+{{ form_start(form) }}
+    {{ form_row(form.descricao) }}
+
+    <button type="submit" class="btn btn-primary" data-turbo-submits-with='<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Salvando...'>Salvar</button>
+    <a href="{{ path('assunto_index') }}" class="btn btn-link">Cancelar</a>
+{{ form_end(form) }}

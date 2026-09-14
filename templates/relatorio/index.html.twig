@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Relatório de livros por autor{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">Relatório de livros por autor</h1>
+        <a href="{{ path('relatorio_pdf') }}" class="btn btn-outline-primary" target="_blank">Exportar PDF</a>
+    </div>
+    <p class="text-muted">Livros agrupados por autor. Um livro com mais de um autor aparece em cada um dos grupos.</p>
+
+    {% for autor in autores %}
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <strong>{{ autor.nome }}</strong>
+                <span class="badge text-bg-primary">Total: {{ autor.total|format_currency('BRL', locale='pt_BR') }}</span>
+            </div>
+            <table class="table table-sm mb-0">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Editora</th>
+                        <th>Edição</th>
+                        <th>Ano</th>
+                        <th>Valor</th>
+                        <th>Assuntos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for livro in autor.livros %}
+                        <tr>
+                            <td>{{ livro.livro_titulo }}</td>
+                            <td>{{ livro.livro_editora }}</td>
+                            <td>{{ livro.livro_edicao }}</td>
+                            <td>{{ livro.livro_ano_publicacao }}</td>
+                            <td>{{ livro.livro_valor|format_currency('BRL', locale='pt_BR') }}</td>
+                            <td>{{ livro.livro_assuntos }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-center text-muted">Nenhum dado disponível para o relatório.</p>
+    {% endfor %}
+{% endblock %}

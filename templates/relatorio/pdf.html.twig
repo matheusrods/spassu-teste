@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório de livros por autor</title>
+    <style>
+        body { font-family: 'DejaVu Sans', sans-serif; font-size: 11px; color: #1f2937; }
+        h1 { font-size: 18px; margin-bottom: 4px; }
+        p.subtitulo { color: #555; margin-top: 0; margin-bottom: 20px; }
+        .autor { margin-bottom: 18px; page-break-inside: avoid; }
+        .autor-header {
+            background-color: #6d2130;
+            color: #ffffff;
+            padding: 6px 10px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        .autor-header .total { float: right; }
+        table { width: 100%; border-collapse: collapse; margin-top: 4px; }
+        th, td { border: 1px solid #ddd; padding: 5px 8px; text-align: left; }
+        th { background-color: #f1efe9; font-size: 10px; text-transform: uppercase; }
+        tfoot td { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Relatório de livros por autor</h1>
+    <p class="subtitulo">Livros agrupados por autor. Um livro com mais de um autor aparece em cada um dos grupos.</p>
+
+    {% for autor in autores %}
+        <div class="autor">
+            <div class="autor-header">
+                {{ autor.nome }}
+                <span class="total">Total: {{ autor.total|format_currency('BRL', locale='pt_BR') }}</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Editora</th>
+                        <th>Edição</th>
+                        <th>Ano</th>
+                        <th>Valor</th>
+                        <th>Assuntos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for livro in autor.livros %}
+                        <tr>
+                            <td>{{ livro.livro_titulo }}</td>
+                            <td>{{ livro.livro_editora }}</td>
+                            <td>{{ livro.livro_edicao }}</td>
+                            <td>{{ livro.livro_ano_publicacao }}</td>
+                            <td>{{ livro.livro_valor|format_currency('BRL', locale='pt_BR') }}</td>
+                            <td>{{ livro.livro_assuntos }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>Nenhum dado disponível para o relatório.</p>
+    {% endfor %}
+</body>
+</html>

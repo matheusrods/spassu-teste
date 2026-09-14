@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Início{% endblock %}
+
+{% block body %}
+    <div class="row g-4 mt-3">
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Livros</h5>
+                    <p class="card-text">Cadastro e manutenção de livros.</p>
+                    <a href="{{ path('livro_index') }}" class="btn btn-primary" data-controller="loading-link" data-action="click->loading-link#click">Acessar</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Autores</h5>
+                    <p class="card-text">Cadastro e manutenção de autores.</p>
+                    <a href="{{ path('autor_index') }}" class="btn btn-primary" data-controller="loading-link" data-action="click->loading-link#click">Acessar</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Assuntos</h5>
+                    <p class="card-text">Cadastro e manutenção de assuntos.</p>
+                    <a href="{{ path('assunto_index') }}" class="btn btn-primary" data-controller="loading-link" data-action="click->loading-link#click">Acessar</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Relatório</h5>
+                    <p class="card-text">Livros agrupados por autor.</p>
+                    <a href="{{ path('relatorio_index') }}" class="btn btn-outline-primary" data-controller="loading-link" data-action="click->loading-link#click">Acessar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

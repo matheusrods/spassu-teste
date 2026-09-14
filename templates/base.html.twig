@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}Cadastro de Livros{% endblock %}</title>
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app', attributes = {'data-turbo-track': 'reload'}) }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app', attributes = {'data-turbo-track': 'reload'}) }}
+        {% endblock %}
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+            <div class="container">
+                <a class="navbar-brand" href="{{ path('app_home') }}">Cadastro de Livros</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarMain">
+                    {% if app.user %}
+                        <ul class="navbar-nav ms-auto align-items-lg-center">
+                            <li class="nav-item"><a class="nav-link" href="{{ path('livro_index') }}">Livros</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ path('autor_index') }}">Autores</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ path('assunto_index') }}">Assuntos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ path('relatorio_index') }}">Relatório</a></li>
+                            <li class="nav-item ms-lg-3">
+                                <a class="nav-link" href="{{ path('app_logout') }}">Sair ({{ app.user.userIdentifier }})</a>
+                            </li>
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+
+        <main class="container mb-5">
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="d-none" data-controller="flash-alert" data-flash-alert-type-value="{{ label }}">{{ message|trans }}</div>
+                {% endfor %}
+            {% endfor %}
+
+            {% block body %}{% endblock %}
+        </main>
+    </body>
+</html>

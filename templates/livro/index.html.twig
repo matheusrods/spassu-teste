@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Livros{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">Livros</h1>
+        <a href="{{ path('livro_new') }}" class="btn btn-primary">Novo livro</a>
+    </div>
+
+    <form method="get" class="row g-2 mb-3 align-items-end">
+        <div class="col-md-4">
+            <label for="filtro-titulo" class="form-label small text-muted mb-1">Título do livro</label>
+            <input type="text" id="filtro-titulo" name="titulo" value="{{ filtroTitulo }}" class="form-control" placeholder="Ex.: Dom Casmurro">
+        </div>
+        <div class="col-md-3">
+            <label for="filtro-autor" class="form-label small text-muted mb-1">Autor</label>
+            <select id="filtro-autor" name="autor" class="form-select">
+                <option value="">Todos os autores</option>
+                {% for autor in autores %}
+                    <option value="{{ autor.id }}" {{ filtroAutor == autor.id ? 'selected' : '' }}>{{ autor.nome }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="filtro-assunto" class="form-label small text-muted mb-1">Assunto</label>
+            <select id="filtro-assunto" name="assunto" class="form-select">
+                <option value="">Todos os assuntos</option>
+                {% for assunto in assuntos %}
+                    <option value="{{ assunto.id }}" {{ filtroAssunto == assunto.id ? 'selected' : '' }}>{{ assunto.descricao }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-2 d-flex gap-2">
+            <button type="submit" class="btn btn-outline-secondary flex-fill">Filtrar</button>
+            <a href="{{ path('livro_index') }}" class="btn btn-link">Limpar</a>
+        </div>
+    </form>
+
+    <table class="table table-striped table-hover align-middle">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Título</th>
+                <th>Editora</th>
+                <th>Edição</th>
+                <th>Ano</th>
+                <th>Valor</th>
+                <th>Autores</th>
+                <th>Assuntos</th>
+                <th class="table-actions">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for livro in livros %}
+                <tr>
+                    <td>{{ livro.id }}</td>
+                    <td>{{ livro.titulo }}</td>
+                    <td>{{ livro.editora }}</td>
+                    <td>{{ livro.edicao }}</td>
+                    <td>{{ livro.anoPublicacao }}</td>
+                    <td>{{ livro.valor|format_currency('BRL', locale='pt_BR') }}</td>
+                    <td>{{ livro.autores|map(a => a.nome)|join(', ') }}</td>
+                    <td>{{ livro.assuntos|map(s => s.descricao)|join(', ') }}</td>
+                    <td class="table-actions">
+                        <a href="{{ path('livro_edit', {id: livro.id}) }}" class="btn btn-sm btn-outline-secondary">Editar</a>
+                        {{ include('_partials/_botao_excluir.html.twig', {tipo: 'livro', id: livro.id, mensagem: 'Excluir este livro?'}) }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="9" class="text-center text-muted">Nenhum livro cadastrado.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {{ include('_partials/_paginacao.html.twig', {itens: livros}) }}
+{% endblock %}

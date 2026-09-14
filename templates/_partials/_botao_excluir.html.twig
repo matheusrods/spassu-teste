@@ -1,0 +1,11 @@
+{#
+    Formulário de exclusão com confirmação (SweetAlert2 via Stimulus).
+    Variáveis esperadas:
+      tipo: prefixo usado na rota/token CSRF (ex.: "livro" -> rota "livro_delete", token "delete-livro-{id}")
+      id: id do registro a excluir
+      mensagem: texto de confirmação exibido no modal
+#}
+<form action="{{ path(tipo ~ '_delete', {id: id}) }}" method="post" class="d-inline" data-controller="confirm-delete" data-confirm-delete-message-value="{{ mensagem }}" data-action="submit->confirm-delete#submit">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete-' ~ tipo ~ '-' ~ id) }}">
+    <button type="submit" class="btn btn-sm btn-outline-danger" data-turbo-submits-with='<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Excluindo...'>Excluir</button>
+</form>

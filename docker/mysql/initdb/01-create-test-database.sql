@@ -1,0 +1,3 @@
+CREATE DATABASE IF NOT EXISTS livraria_test CHARACTER SET utf8mb4;
+GRANT ALL PRIVILEGES ON livraria_test.* TO 'symfony'@'%';
+FLUSH PRIVILEGES;
