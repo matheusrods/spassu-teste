@@ -1,11 +1,13 @@
 livro.cadastrado: 'Livro cadastrado com sucesso.'
 livro.atualizado: 'Livro atualizado com sucesso.'
 livro.excluido: 'Livro excluído com sucesso.'
+livro.relacionamento_invalido: 'Um dos autores ou assuntos selecionados não existe mais. Atualize a página e tente novamente.'
 
 autor.cadastrado: 'Autor cadastrado com sucesso.'
 autor.atualizado: 'Autor atualizado com sucesso.'
 autor.excluido: 'Autor excluído com sucesso.'
 autor.vinculado: 'Não é possível excluir este autor: existem livros vinculados a ele.'
+autor.duplicado: 'Já existe um autor com este nome.'
 
 assunto.cadastrado: 'Assunto cadastrado com sucesso.'
 assunto.atualizado: 'Assunto atualizado com sucesso.'

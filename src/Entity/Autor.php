@@ -6,10 +6,13 @@ use App\Repository\AutorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AutorRepository::class)]
 #[ORM\Table(name: 'autor')]
+#[ORM\UniqueConstraint(name: 'uniq_autor_nome', columns: ['nome'])]
+#[UniqueEntity(fields: ['nome'], message: 'Já existe um autor com este nome.')]
 class Autor
 {
     #[ORM\Id]
@@ -17,7 +20,7 @@ class Autor
     #[ORM\Column(name: 'cod_au', type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'nome', length: 40)]
+    #[ORM\Column(name: 'nome', length: 40, unique: true)]
     #[Assert\NotBlank(message: 'Informe o nome do autor.')]
     #[Assert\Length(max: 40, maxMessage: 'O nome deve ter no máximo {{ limit }} caracteres.')]
     private ?string $nome = null;

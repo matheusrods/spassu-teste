@@ -3,8 +3,10 @@
 namespace App\Service;
 
 use App\Entity\Autor;
+use App\Exception\AutorDuplicadoException;
 use App\Exception\RegistroVinculadoException;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 
 class AutorService
@@ -14,15 +16,29 @@ class AutorService
     ) {
     }
 
+    /**
+     * @throws AutorDuplicadoException se o nome já existir
+     */
     public function criar(Autor $autor): void
     {
-        $this->em->persist($autor);
-        $this->em->flush();
+        try {
+            $this->em->persist($autor);
+            $this->em->flush();
+        } catch (UniqueConstraintViolationException) {
+            throw new AutorDuplicadoException('autor.duplicado');
+        }
     }
 
+    /**
+     * @throws AutorDuplicadoException se o nome já existir
+     */
     public function atualizar(Autor $autor): void
     {
-        $this->em->flush();
+        try {
+            $this->em->flush();
+        } catch (UniqueConstraintViolationException) {
+            throw new AutorDuplicadoException('autor.duplicado');
+        }
     }
 
     /**

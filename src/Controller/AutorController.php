@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Autor;
+use App\Exception\AutorDuplicadoException;
 use App\Exception\RegistroVinculadoException;
 use App\Form\AutorType;
 use App\Repository\AutorRepository;
@@ -48,11 +49,15 @@ class AutorController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->autorService->criar($autor);
+            try {
+                $this->autorService->criar($autor);
 
-            $this->addFlash('success', 'autor.cadastrado');
+                $this->addFlash('success', 'autor.cadastrado');
 
-            return $this->redirectToRoute('autor_index');
+                return $this->redirectToRoute('autor_index');
+            } catch (AutorDuplicadoException $e) {
+                $this->addFlash('error', $e->getMessage());
+            }
         }
 
         return $this->render('autor/new.html.twig', [
@@ -67,11 +72,15 @@ class AutorController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->autorService->atualizar($autor);
+            try {
+                $this->autorService->atualizar($autor);
 
-            $this->addFlash('success', 'autor.atualizado');
+                $this->addFlash('success', 'autor.atualizado');
 
-            return $this->redirectToRoute('autor_index');
+                return $this->redirectToRoute('autor_index');
+            } catch (AutorDuplicadoException $e) {
+                $this->addFlash('error', $e->getMessage());
+            }
         }
 
         return $this->render('autor/edit.html.twig', [

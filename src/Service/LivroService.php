@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use App\Entity\Livro;
+use App\Exception\RelacionamentoInexistenteException;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 
 class LivroService
@@ -12,15 +14,29 @@ class LivroService
     ) {
     }
 
+    /**
+     * @throws RelacionamentoInexistenteException se um autor ou assunto vinculado não existir mais
+     */
     public function criar(Livro $livro): void
     {
-        $this->em->persist($livro);
-        $this->em->flush();
+        try {
+            $this->em->persist($livro);
+            $this->em->flush();
+        } catch (ForeignKeyConstraintViolationException) {
+            throw new RelacionamentoInexistenteException('livro.relacionamento_invalido');
+        }
     }
 
+    /**
+     * @throws RelacionamentoInexistenteException se um autor ou assunto vinculado não existir mais
+     */
     public function atualizar(Livro $livro): void
     {
-        $this->em->flush();
+        try {
+            $this->em->flush();
+        } catch (ForeignKeyConstraintViolationException) {
+            throw new RelacionamentoInexistenteException('livro.relacionamento_invalido');
+        }
     }
 
     public function excluir(Livro $livro): void

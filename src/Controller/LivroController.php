@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Livro;
+use App\Exception\RelacionamentoInexistenteException;
 use App\Form\LivroType;
 use App\Repository\AssuntoRepository;
 use App\Repository\AutorRepository;
@@ -62,11 +63,15 @@ class LivroController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->livroService->criar($livro);
+            try {
+                $this->livroService->criar($livro);
 
-            $this->addFlash('success', 'livro.cadastrado');
+                $this->addFlash('success', 'livro.cadastrado');
 
-            return $this->redirectToRoute('livro_index');
+                return $this->redirectToRoute('livro_index');
+            } catch (RelacionamentoInexistenteException $e) {
+                $this->addFlash('error', $e->getMessage());
+            }
         }
 
         return $this->render('livro/new.html.twig', [
@@ -81,11 +86,15 @@ class LivroController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->livroService->atualizar($livro);
+            try {
+                $this->livroService->atualizar($livro);
 
-            $this->addFlash('success', 'livro.atualizado');
+                $this->addFlash('success', 'livro.atualizado');
 
-            return $this->redirectToRoute('livro_index');
+                return $this->redirectToRoute('livro_index');
+            } catch (RelacionamentoInexistenteException $e) {
+                $this->addFlash('error', $e->getMessage());
+            }
         }
 
         return $this->render('livro/edit.html.twig', [

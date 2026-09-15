@@ -34,6 +34,20 @@ class AutorControllerTest extends AuthenticatedWebTestCase
         $this->assertSelectorTextContains('body', 'Cecília Meireles');
     }
 
+    public function testCreatingAutorWithDuplicateNomeShowsError(): void
+    {
+        $autor = new Autor();
+        $autor->setNome('Machado de Assis');
+        $this->em->persist($autor);
+        $this->em->flush();
+
+        $this->client->request('GET', '/autores/novo');
+        $this->client->submitForm('Salvar', ['autor[nome]' => 'Machado de Assis']);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertSelectorTextContains('.invalid-feedback', 'Já existe um autor com este nome.');
+    }
+
     public function testEditingAutor(): void
     {
         $autor = new Autor();

@@ -11,7 +11,17 @@ framework:
     trusted_headers: ['x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-port', 'x-forwarded-prefix']
 
     # Note that the session will be started ONLY if you read or write from it.
-    session: true
+    #
+    # cookie_secure fixo em false: com trusted_proxies confiando em qualquer
+    # origem para X-Forwarded-Proto (acima), uma requisição isolada com esse
+    # header (ex.: vinda do túnel do Codespaces) fazia o cookie de sessão
+    # nascer "secure" — e como o acesso local é http:// puro, o navegador
+    # descartava esse cookie na requisição seguinte, deslogando no meio do
+    # uso (ex.: excluir um livro e cair na tela de login). App local/demo,
+    # sem necessidade real de cookie HTTPS-only.
+    session:
+        cookie_secure: false
+        gc_maxlifetime: 14400
 
     #esi: true
     #fragments: true

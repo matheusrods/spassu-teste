@@ -4,6 +4,14 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Cadastro de Livros{% endblock %}</title>
+        {% if not app.user %}
+            {# Nunca deixa o Turbo guardar em cache uma página renderizada sem
+               usuário logado (ex.: login) — senão, se a sessão cair por
+               qualquer motivo no meio do uso, essa página fica presa no
+               cache do Turbo e pode reaparecer depois, mesmo já autenticado
+               de novo, sem nenhuma requisição nova ao servidor. #}
+            <meta name="turbo-cache-control" content="no-cache">
+        {% endif %}
         {% block stylesheets %}
             {{ encore_entry_link_tags('app', attributes = {'data-turbo-track': 'reload'}) }}
         {% endblock %}
